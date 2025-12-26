@@ -5,7 +5,7 @@ interface CandleCountSelectorProps {
   onChange: (count: CandleCount) => void;
 }
 
-const COUNTS: CandleCount[] = [50, 100];
+const COUNTS: CandleCount[] = [1, 10, 25, 50, 100];
 
 export default function CandleCountSelector({ value, onChange }: CandleCountSelectorProps) {
   return (

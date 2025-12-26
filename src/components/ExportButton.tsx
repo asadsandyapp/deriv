@@ -10,6 +10,12 @@ interface ExportButtonProps {
 
 export default function ExportButton({ symbol, timeframe, data, disabled }: ExportButtonProps) {
   const handleExport = () => {
+    // Use the data that's already loaded - no API call needed
+    console.log('📥 Export button clicked - using existing data:', data.length, 'candles');
+    if (data.length === 0) {
+      alert('No data available to export. Please wait for data to load.');
+      return;
+    }
     exportToCSV(symbol, timeframe, data);
   };
 

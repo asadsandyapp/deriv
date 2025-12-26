@@ -1,6 +1,6 @@
 export type Symbol = string; // Allow any symbol string
 export type Timeframe = '1h' | '4h' | '1d';
-export type CandleCount = 50 | 100;
+export type CandleCount = 1 | 10 | 25 | 50 | 100;
 
 export interface CandleData {
   candleNumber: number;

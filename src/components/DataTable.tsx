@@ -5,6 +5,21 @@ interface DataTableProps {
   loading?: boolean;
 }
 
+// Helper function to format epoch timestamp to readable date/time
+function formatCandleTime(epoch?: number): string {
+  if (!epoch) return 'N/A';
+  const date = new Date(epoch * 1000); // Convert Unix timestamp to milliseconds
+  return date.toLocaleString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+}
+
 export default function DataTable({ data, loading }: DataTableProps) {
   if (loading) {
     return (
@@ -32,10 +47,19 @@ export default function DataTable({ data, loading }: DataTableProps) {
               Candle #
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+              Time
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+              Open
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
               High
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
               Low
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+              Close
             </th>
           </tr>
         </thead>
@@ -48,11 +72,20 @@ export default function DataTable({ data, loading }: DataTableProps) {
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                 {candle.candleNumber}
               </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                {formatCandleTime(candle.epoch)}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 font-semibold">
+                {candle.open?.toFixed(2) || 'N/A'}
+              </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">
                 {candle.high.toFixed(2)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-semibold">
                 {candle.low.toFixed(2)}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-purple-600 font-semibold">
+                {candle.close?.toFixed(2) || 'N/A'}
               </td>
             </tr>
           ))}

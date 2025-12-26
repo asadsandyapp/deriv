@@ -6,7 +6,21 @@ interface SymbolSelectorProps {
   availableSymbols: string[];
 }
 
-const DEFAULT_SYMBOLS: string[] = ['C600', 'C900', 'B900', 'B1000'];
+// Valid Deriv API symbols - Volatility indices and Boom/Crash indices
+// Removed invalid symbols: 1CRASH600, 1CRASH900, 1BOOM600 (causing WrongResponse errors)
+const DEFAULT_SYMBOLS: string[] = [
+  'R_10', 
+  'R_25', 
+  'R_50', 
+  'R_75', 
+  'R_100',
+  'CRASH500',
+  'BOOM500',
+  'BOOM900',
+  'CRASH900',
+  'BOOM1000',
+  'CRASH1000'
+];
 
 export default function SymbolSelector({ value, onChange, availableSymbols }: SymbolSelectorProps) {
   // Combine default and custom symbols, remove duplicates, and sort

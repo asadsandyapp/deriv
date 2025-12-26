@@ -11,7 +11,7 @@ import AddSymbolForm from './components/AddSymbolForm';
 const STORAGE_KEY = 'deriv_custom_symbols';
 
 function App() {
-  const [symbol, setSymbol] = useState<Symbol>('C600');
+  const [symbol, setSymbol] = useState<Symbol>('R_10');
   const [timeframe, setTimeframe] = useState<Timeframe>('1h');
   const [candleCount, setCandleCount] = useState<CandleCount>(50);
   const [candleData, setCandleData] = useState<CandleData[]>([]);
@@ -80,7 +80,7 @@ function App() {
     setCustomSymbols((prev) => prev.filter((s) => s !== symbolToRemove));
     // If the removed symbol was selected, switch to default
     if (symbol === symbolToRemove) {
-      setSymbol('C600');
+      setSymbol('R_10');
     }
   };
 
@@ -163,8 +163,24 @@ function App() {
         {/* Error Message */}
         {error && (
           <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
-            <p className="font-semibold">Error</p>
-            <p>{error}</p>
+            <p className="font-semibold text-lg mb-2">⚠️ Error Loading Data</p>
+            <div className="whitespace-pre-line text-sm">{error}</div>
+            <div className="mt-4 pt-3 border-t border-red-200">
+              <button
+                onClick={fetchCandleData}
+                disabled={loading}
+                className={`
+                  px-4 py-2 rounded-lg font-semibold text-white text-sm
+                  transition-all duration-200
+                  ${loading
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-blue-500 hover:bg-blue-600 active:scale-95'
+                  }
+                `}
+              >
+                {loading ? 'Retrying...' : '🔄 Try Again'}
+              </button>
+            </div>
           </div>
         )}
 
@@ -183,7 +199,7 @@ function App() {
         {/* Data Table */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            Candle Data ({candleData.length} candles)
+            Candle Data - {symbol} - {timeframe} ({candleData.length} candles)
           </h2>
           <DataTable data={candleData} loading={loading} />
         </div>
@@ -193,4 +209,7 @@ function App() {
 }
 
 export default App;
+
+
+
 
